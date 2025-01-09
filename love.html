@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Thư xin lỗi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Parisienne&family=Quicksand:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #ffafbd, #ffc3a0, #ff9a9e, #fad0c4);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Quicksand', sans-serif;
+            perspective: 1000px;
+            overflow: hidden;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+
+        .envelope:hover {
+            transform: translateY(-10px) rotateY(10deg);
+        }
+
+        .envelope-front {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Parisienne', cursive;
+            font-size: 24px;
+            color: #d64161;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .envelope-front::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                rgba(255,255,255,0.13) 25%,
+                rgba(255,255,255,0.13) 25%,
+                rgba(255,255,255,0.13) 50%,
+                rgba(255,255,255,0.13) 50%,
+                rgba(255,255,255,0.13) 75%,
+                rgba(255,255,255,0.13) 75%,
+                rgba(255,255,255,0.13)
+            );
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .letter {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNmOGY4ZjgiPjwvcmVjdD4KPC9zdmc+');
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+            animation: letterAppear 1s forwards;
+        }
+
+        @keyframes letterAppear {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8) rotateY(-90deg);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) rotateY(0);
+            }
+        }
+
+        .letter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.8), rgba(255,255,255,0.3));
+            border-radius: 20px;
+            z-index: -1;
+            backdrop-filter: blur(5px);
+        }
+
+        .letter-content {
+            line-height: 2;
+            font-size: 1.2em;
+            color: #444;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            font-family: 'Parisienne', cursive;
+            font-size: 3em;
+            color: #d64161;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+            animation: popupAppear 0.5s forwards;
+            z-index: 1000;
+        }
+
+        @keyframes popupAppear {
+            from { 
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            to { 
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        button {
+            padding: 15px 30px;
+            margin: 15px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #forgiveBtn {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255,154,158,0.4);
+        }
+
+        #forgiveBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255,154,158,0.6);
+        }
+
+        #noForgiveBtn {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            color: white;
+            position: fixed;
+            box-shadow: 0 5px 15px rgba(255,154,158,0.4);
+            transition: all 0.3s ease;
+        }
+
+        .continue-btn {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255,154,158,0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255,154,158,0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(255,154,158,0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,154,158,0); }
+        }
+
+        .thank-you {
+            display: none;
+            color: #d64161;
+            font-size: 2em;
+            margin-top: 20px;
+            font-family: 'Parisienne', cursive;
+            animation: bounce 1s;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-30px); }
+            60% { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="envelope" onclick="openEnvelope()">
+        <div class="envelope-front">
+            Gửi út dễ thương ❤️
+        </div>
+    </div>
+
+    <div class="letter">
+        <h2>Gửi út dễ thương!</h2>
+        <div class="letter-content">
+            <p>Mít à, Tí thật sự xin lỗi vì đã bỏ Mít một mình. 
+               Tí biết hành động đó khiến Mít buồn.</p>
+            <p>Tí rất trân trọng khoảng thời gian được trò chuyện và tìm hiểu Mít. Tí sẽ dành nhiều thời gian cho Mít hơn nhaaa</p>
+            <p>Sẽ biết suy nghĩ và trân trọng sự hiện diện của Mít hơn. 
+               Mong Mít đại nhân đại lượng bỏ quaaaaaaaaaaaaaaaaa.</p>
+            <p>Cảm ơn Mít vì đã kiên nhẫn với một người chưa hoàn hảo như Tí. ❤️</p>
+        </div>
+        <button class="continue-btn" onclick="showPopup()">Hãy cho Tí một cơ hội nhé ▶</button>
+    </div>
+
+    <div class="popup" id="popup">
+        <h3>Mít có thể tha thứ cho Tí không?</h3>
+        <div>
+            <button id="forgiveBtn" onclick="forgive()">Tha thứ cho Tí ❤️</button>
+            <button id="noForgiveBtn" onmouseover="moveButton()">Không tha thứ 💔</button>
+        </div>
+        <div class="thank-you" id="thankYou">
+            Cảm ơn Mít nhiều lắm! Mãi iu! ❤️
+        </div>
+    </div>
+
+    <script>
+        function openEnvelope() {
+            const envelope = document.querySelector('.envelope');
+            envelope.style.transform = 'rotateY(180deg)';
+            
+            setTimeout(() => {
+                envelope.style.display = 'none';
+                document.querySelector('.letter').style.display = 'block';
+            }, 600);
+        }
+
+        function showPopup() {
+            document.querySelector('.letter').style.display = 'none';
+            document.getElementById('popup').style.display = 'block';
+        }
+
+        function moveButton() {
+            const button = document.getElementById("noForgiveBtn");
+            const popup = document.getElementById("popup");
+
+            // Tạo vị trí ngẫu nhiên cho nút "Không tha thứ"
+            const popupRect = popup.getBoundingClientRect();
+            const buttonWidth = button.offsetWidth;
+            const buttonHeight = button.offsetHeight;
+
+            const maxX = 500; // Giới hạn bên trong popup
+            const maxY = 400;
+
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            // Cập nhật vị trí nút
+            button.style.position = "absolute";
+            button.style.left = `${randomX}px`;
+            button.style.top = `${randomY}px`;
+        }
+
+        function forgive() {
+            const buttonsDiv = document.querySelector('.popup div');
+            buttonsDiv.style.display = 'none';
+            document.getElementById('thankYou').style.display = 'block';
+            
+            // Thêm hiệu ứng tim rơi
+            setInterval(createHeart, 50);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = ['❤️', '💖', '💗', '💓', '💝'][Math.floor(Math.random() * 5)];
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '-50px';
+            heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+            heart.style.transition = 'transform ' + (Math.random() * 2 + 3) + 's ease-in, top ' + (Math.random() * 2 + 3) + 's ease-in';
+            heart.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.style.top = '120vh';
+                heart.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+            }, 100);
+
+            setTimeout(() => {
+                document.body.removeChild(heart);
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
